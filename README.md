@@ -22,4 +22,4 @@ https://motooka.github.io/darts_kikuyama_webapp/
 - `npm run serve` → `out` ディレクトリにあるビルド結果を使って [http://localhost:3000/darts_kikuyama_webapp/](http://localhost:3000/darts_kikuyama_webapp/) で配信
 - `npm run lint` → lint
 - `main` branch に push すると、GitHub Actions の動きによって GitHub Pages にデプロイされる
-  - 参考 : [GitHub Pages のデプロイに Custom GitHub Actions Workflows を使用することで、ビルドの成果物の commit が不要になりました (DevelopersIO)](https://dev.classmethod.jp/articles/github-pages-by-actions/)
+	- 参考 : [GitHub Pages のデプロイに Custom GitHub Actions Workflows を使用することで、ビルドの成果物の commit が不要になりました (DevelopersIO)](https://dev.classmethod.jp/articles/github-pages-by-actions/)

@@ -113,3 +113,56 @@ export function createBlankPractice(): Practice {
     targetBull: createBlankTargetHistory(),
   };
 }
+
+const LOCAL_STORAGE_KEY_ONGOING_PRACTICE = 'darts-kikuyama-ongoingPractice';
+const LOCAL_STORAGE_KEY_PRACTICES = 'darts-kikuyama-practices';
+export function loadOngoingPracticeFromStorage(): Practice|null {
+  console.log('going to load loadOngoingPracticeFromStorage');
+  const str = window.localStorage.getItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE);
+  if(str===null) {
+    return null;
+  }
+  try {
+    const obj = JSON.parse(str);
+    if(isPractice(obj)) {
+      return obj;
+    }
+  }
+  catch(e) {
+    // JSON Parse Error
+    return null;
+  }
+  return null;
+}
+export function writeOngoingPracticeToStorage(p: Practice): void {
+  window.localStorage.setItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE, JSON.stringify(p));
+}
+export function loadPracticesFromStorage(): Practice[] {
+  const str = window.localStorage.getItem(LOCAL_STORAGE_KEY_PRACTICES);
+  if(str===null) {
+    return [];
+  }
+  try {
+    const obj = JSON.parse(str);
+    if(Array.isArray(obj)) {
+      for(const p of obj) {
+        if(!isPractice(p)) {
+          return [];
+        }
+      }
+      return obj;
+    }
+  }
+  catch(e) {
+    // JSON Parse Error
+    return [];
+  }
+
+  // never reaches here
+  return [];
+}
+export function appendPracticeToStorage(p: Practice): void {
+  const existing = loadPracticesFromStorage();
+  existing.push(p);
+  window.localStorage.setItem(LOCAL_STORAGE_KEY_PRACTICES, JSON.stringify(existing));
+}

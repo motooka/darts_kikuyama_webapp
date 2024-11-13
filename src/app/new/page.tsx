@@ -9,20 +9,16 @@ import {
   Practice,
   getTargetTuples,
   writeOngoingPracticeToStorage,
-  loadOngoingPracticeFromStorage, appendPracticeToStorage
+  loadOngoingPracticeFromStorage, appendPracticeToStorage, clearOngoingPracticeOnStorage
 } from '@/models';
-
-const mprFormatter = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
+import {formatMPR} from "@/app/utils";
 
 const FINISH_THRESHOLD = 10;
 
 function renderTargetHistory(his: TargetHistory) {
   const done = (his.marks >= FINISH_THRESHOLD) ? '✅' : '';
   const started = (his.darts > 0);
-  const mpr = started ? mprFormatter.format(his.marks / (his.darts / 3.0)) : '-';
+  const mpr = formatMPR(his.marks, his.darts);
 
   if(!started) {
     return <>未挑戦</>;
@@ -49,7 +45,7 @@ function renderSummary(p: Practice) {
     }
   }
   const done = allDone ? '✅' : '';
-  const mpr = (sumDarts > 0) ? mprFormatter.format(sumMarks / (sumDarts / 3.0)) : '-';
+  const mpr = formatMPR(sumMarks, sumDarts);
 
   return (
     <>
@@ -193,7 +189,7 @@ export default function Home() {
       }
     }
     appendPracticeToStorage(practice);
-    writeOngoingPracticeToStorage(createBlankPractice());
+    clearOngoingPracticeOnStorage();
     router.push('/');
   }
   function pauseAndReturn() {
@@ -203,7 +199,7 @@ export default function Home() {
     if(!confirm('本当に、この練習の記録を消しても良いのですか？')) {
       return;
     }
-    writeOngoingPracticeToStorage(createBlankPractice());
+    clearOngoingPracticeOnStorage();
     router.push('/');
   }
 

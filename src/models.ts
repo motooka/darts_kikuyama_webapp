@@ -117,7 +117,6 @@ export function createBlankPractice(): Practice {
 const LOCAL_STORAGE_KEY_ONGOING_PRACTICE = 'darts-kikuyama-ongoingPractice';
 const LOCAL_STORAGE_KEY_PRACTICES = 'darts-kikuyama-practices';
 export function loadOngoingPracticeFromStorage(): Practice|null {
-  console.log('going to load loadOngoingPracticeFromStorage');
   const str = window.localStorage.getItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE);
   if(str===null) {
     return null;
@@ -136,6 +135,9 @@ export function loadOngoingPracticeFromStorage(): Practice|null {
 }
 export function writeOngoingPracticeToStorage(p: Practice): void {
   window.localStorage.setItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE, JSON.stringify(p));
+}
+export function clearOngoingPracticeOnStorage(): void {
+  window.localStorage.removeItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE);
 }
 export function loadPracticesFromStorage(): Practice[] {
   const str = window.localStorage.getItem(LOCAL_STORAGE_KEY_PRACTICES);

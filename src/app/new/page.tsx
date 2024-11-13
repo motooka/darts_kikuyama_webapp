@@ -1,9 +1,8 @@
 'use client';
 
-import styles from "@/app/page.module.css";
-import Link from "next/link";
+import styles from '@/app/page.module.css';
 import { useRouter } from 'next/navigation';
-import React from "react";
+import React from 'react';
 import {
   createBlankPractice,
   TargetHistory,
@@ -11,7 +10,7 @@ import {
   getTargetTuples,
   writeOngoingPracticeToStorage,
   loadOngoingPracticeFromStorage, appendPracticeToStorage
-} from "@/models";
+} from '@/models';
 
 const mprFormatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
@@ -258,7 +257,7 @@ export default function Home() {
           </fieldset>
         )
       }
-      <div className="ctas">
+      <div className={styles.ctas}>
         <button onClick={saveAndFinish}>保存して終了</button>
         <button onClick={pauseAndReturn}>練習を中断(後で再開)</button>
         <button onClick={destroyAndReturn}>記録を破棄する</button>

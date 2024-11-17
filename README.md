@@ -1,5 +1,7 @@
 ダーツの菊池山口練習法 https://www.youtube.com/watch?v=Ve37QZhcwsQ の記録用Webアプリです。
 
+※まだ開発中です。予告なく仕様やデザインが変わったり、過去のデータが消えたりすることがあります。
+
 ## 利用するには
 https://motooka.github.io/darts_kikuyama_webapp/
 

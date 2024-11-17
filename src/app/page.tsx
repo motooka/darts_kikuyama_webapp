@@ -25,6 +25,7 @@ export default function Home() {
 
   return (
     <>
+      <p>※まだ開発中です。予告なく仕様やデザインが変わったり、過去のデータが消えたりすることがあります。</p>
       <div className={styles.ctas}>
         <Link href="/new" className={styles.primary}>{ongoing===null ? '新規の練習' : '練習の再開'}</Link>
       </div>

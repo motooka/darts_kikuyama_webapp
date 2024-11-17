@@ -25,11 +25,18 @@ export default function RootLayout({
       </main>
       <footer className={styles.footer}>
         <div>
+          <a
+            href="https://github.com/motooka/darts_kikuyama_webapp/"
+            target="_blank"
+            rel="noopener"
+          >Source code on GitHub</a>
+        </div>
+        <div>
           copyright &copy;
           <a
             href="https://www.tmotooka.com/"
             target="_blank"
-            // rel="noopener noreferrer"
+            rel="noopener"
           >T.MOTOOKA</a>
         </div>
       </footer>

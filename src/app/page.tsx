@@ -4,12 +4,9 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import React from 'react';
 import {
-  createBlankPractice,
   TargetHistory,
   Practice,
-  getTargetTuples,
-  writeOngoingPracticeToStorage,
-  loadOngoingPracticeFromStorage, appendPracticeToStorage, loadPracticesFromStorage
+  loadOngoingPracticeFromStorage, loadPracticesFromStorage
 } from '@/models';
 import {formatMPR, formatYMDHM} from "@/app/utils";
 

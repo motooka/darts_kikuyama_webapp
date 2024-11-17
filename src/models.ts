@@ -21,7 +21,11 @@ export interface TargetTuple {
   history: TargetHistory;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isTargetHistory(obj: any): obj is TargetHistory {
+  if(obj === null || typeof obj !== 'object') {
+    return false;
+  }
   if(
     !obj.hasOwnProperty('marks')
     || !obj.hasOwnProperty('darts')
@@ -46,7 +50,11 @@ export function isTargetHistory(obj: any): obj is TargetHistory {
   return true;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isPractice(obj: any) : obj is Practice {
+  if(obj === null || typeof obj !== 'object') {
+    return false;
+  }
   if(
     !obj.hasOwnProperty('startYMD')
     || !obj.hasOwnProperty('startHMS')
@@ -129,6 +137,7 @@ export function loadOngoingPracticeFromStorage(): Practice|null {
   }
   catch(e) {
     // JSON Parse Error
+    console.error('JSON Parse error in loadOngoingPracticeFromStorage', e);
     return null;
   }
   return null;
@@ -157,6 +166,7 @@ export function loadPracticesFromStorage(): Practice[] {
   }
   catch(e) {
     // JSON Parse Error
+    console.error('JSON Parse error in loadPracticesFromStorage', e);
     return [];
   }
 

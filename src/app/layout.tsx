@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import styles from "@/app/page.module.css";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "菊池山口練習法(ダーツ) 記録アプリ",

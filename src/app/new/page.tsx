@@ -121,7 +121,7 @@ export default function Home() {
   const [practice, setPractice] = React.useState(createBlankPractice());
   const tempMarks = React.useRef<number|null>(null);
   const tempDarts = React.useRef<number|null>(null);
-  const [_, setForceRerender] = React.useState<number>(0);
+  const [, setForceRerender] = React.useState<number>(0);
   const currentTarget = getCurrentTarget(practice);
 
   React.useEffect(()=>{

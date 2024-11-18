@@ -100,6 +100,12 @@ a.secondary {
   flex-shrink: 0;
 }
 
+.commentField {
+  width: 80%;
+  max-width: 600px;
+  margin: 2em auto;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {

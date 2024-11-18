@@ -14,6 +14,7 @@ export interface Practice {
   target16: TargetHistory;
   target15: TargetHistory;
   targetBull: TargetHistory;
+  comment?: string;
 }
 
 export interface TargetTuple {
@@ -78,6 +79,14 @@ export function isPractice(obj: any) : obj is Practice {
     || !isTargetHistory(obj.target16)
     || !isTargetHistory(obj.target15)
     || !isTargetHistory(obj.targetBull)
+  ) {
+    return false;
+  }
+
+  if(
+    obj.hasOwnProperty('comment')
+    && obj.comment !== null
+    && typeof obj.comment !== 'string'
   ) {
     return false;
   }

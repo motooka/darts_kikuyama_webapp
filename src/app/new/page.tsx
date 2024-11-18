@@ -121,6 +121,7 @@ export default function Home() {
   const [practice, setPractice] = React.useState(createBlankPractice());
   const tempMarks = React.useRef<number|null>(null);
   const tempDarts = React.useRef<number|null>(null);
+  const commentRef = React.useRef<HTMLInputElement | null>(null);
   const [, setForceRerender] = React.useState<number>(0);
   const currentTarget = getCurrentTarget(practice);
 
@@ -188,6 +189,9 @@ export default function Home() {
         return;
       }
     }
+    if(commentRef?.current !== null && commentRef.current.value.length > 0) {
+      practice.comment = commentRef.current.value;
+    }
     appendPracticeToStorage(practice);
     clearOngoingPracticeOnStorage();
     router.push('/');
@@ -250,6 +254,14 @@ export default function Home() {
               </dd>
             </dl>
             <button onClick={updatePractice}>更新</button>
+          </fieldset>
+        )
+      }
+      {
+        currentTarget !== null ? <></> : (
+          <fieldset>
+            <legend>コメントを残す</legend>
+            <input type="text" ref={commentRef} className={styles.commentField} />
           </fieldset>
         )
       }

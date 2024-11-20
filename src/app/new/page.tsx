@@ -122,6 +122,7 @@ export default function Home() {
   const tempMarks = React.useRef<number|null>(null);
   const tempDarts = React.useRef<number|null>(null);
   const commentRef = React.useRef<HTMLInputElement | null>(null);
+  const isRollingBackRef = React.useRef<boolean>(false);
   const [, setForceRerender] = React.useState<number>(0);
   const currentTarget = getCurrentTarget(practice);
 
@@ -185,7 +186,12 @@ export default function Home() {
   }
 
   function cancelRound() {
+    isRollingBackRef.current = true;
     setPractice((current) => {
+      if(!isRollingBackRef.current) {
+        return current;
+      }
+      isRollingBackRef.current = false;
       const tuples = getTargetTuples(current).reverse();
       for(const tuple of tuples) {
         if(tuple.history.roundMarks.length > 0) {

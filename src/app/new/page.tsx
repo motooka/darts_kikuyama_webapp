@@ -212,14 +212,20 @@ export default function Home() {
     });
   }
 
+  function updateComment() {
+    const newComment = commentRef?.current?.value;
+    setPractice((current) => {
+      current.comment = newComment;
+      writeOngoingPracticeToStorage(current);
+      return current;
+    });
+  }
+
   function saveAndFinish() {
     if(currentTarget !== null) {
       if(!confirm('まだBullまで投げ切っていませんが、ここで終了して記録に残しても良いですか？')) {
         return;
       }
-    }
-    if(commentRef?.current !== null && commentRef.current.value.length > 0) {
-      practice.comment = commentRef.current.value;
     }
     appendPracticeToStorage(practice);
     clearOngoingPracticeOnStorage();
@@ -318,7 +324,7 @@ export default function Home() {
         <p>
           セッティングやコンディション等
         </p>
-        <input type="text" ref={commentRef} className={styles.commentField}/>
+        <input type="text" ref={commentRef} className={styles.commentField} onChange={updateComment}/>
       </fieldset>
       <div className={styles.ctas}>
         <button onClick={saveAndFinish}>保存して終了</button>

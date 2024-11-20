@@ -30,11 +30,17 @@ export default function Home() {
 
   return (
     <>
+      <p>
+        「菊池山口練習法」は、各クリケットナンバー（20〜15, Bull）で10マークを出すのにかかった本数を記録していく、という練習法です。
+        <span style={{fontSize: '70%', opacity: '0.6'}}>（似たような練習法は昔からあったような気もしますが、きちんと記録していきましょうという点が昔のものとの違いだろうと捉えています。）</span>
+        <br/>
+        本家の解説動画は <a href="https://youtu.be/Ve37QZhcwsQ" target="_blank" rel="noopener">https://youtu.be/Ve37QZhcwsQ</a> をご覧下さい。
+      </p>
       <p>※まだ開発中です。予告なく仕様やデザインが変わったり、過去のデータが消えたりすることがあります。</p>
       <div className={styles.ctas}>
-        <Link href="/new" className={styles.primary}>{ongoing===null ? '新規の練習' : '練習の再開'}</Link>
+        <Link href="/new" className={styles.primary}>{ongoing === null ? '新規の練習' : '練習の再開'}</Link>
       </div>
-      <div style={{overflowX: 'scroll', width: 'calc(100vw - 64px)'}}>
+      <div style={{overflowX: 'scroll', width: 'calc(100vw - 64px)', maxWidth: '600px'}}>
         <h2>直近10練習の記録</h2>
         {
           practices.length <= 0 ? <p>過去の記録はありません</p> : (
@@ -65,7 +71,11 @@ export default function Home() {
                       <td>{renderTargetCell(practice.target16)}</td>
                       <td>{renderTargetCell(practice.target15)}</td>
                       <td>{renderTargetCell(practice.targetBull)}</td>
-                      <td style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word', wordBreak: 'break-all'}}>{practice.comment ?? ''}</td>
+                      <td style={{
+                        whiteSpace: 'pre-wrap',
+                        wordWrap: 'break-word',
+                        wordBreak: 'break-all'
+                      }}>{practice.comment ?? ''}</td>
                     </tr>
                   );
                 })

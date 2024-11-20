@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run prebuild; next dev",
     "build": "next build",
     "serve": "serve out",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prebuild": "node ./writeBuildInfo.mjs"
   },
   "dependencies": {
     "next": "15.0.2",

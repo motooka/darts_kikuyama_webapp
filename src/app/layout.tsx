@@ -3,6 +3,8 @@ import "./globals.css";
 import React from "react";
 import styles from "@/app/page.module.css";
 
+import {buildInfo} from "@/buildInfo";
+
 export const metadata: Metadata = {
   title: "菊池山口練習法(ダーツ) 記録アプリ",
   description: "練習がんばろう",
@@ -38,6 +40,9 @@ export default function RootLayout({
             target="_blank"
             rel="noopener"
           >T.MOTOOKA</a>
+        </div>
+        <div>
+          build version {buildInfo.built}
         </div>
       </footer>
     </div>

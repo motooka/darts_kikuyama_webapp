@@ -43,7 +43,7 @@ export function isTargetHistory(obj: any): obj is TargetHistory {
   }
   const len = obj.roundMarks.length;
   for(let i=0; i<len; i++) {
-    if(typeof obj.marks[i] !== 'number') {
+    if(typeof obj.roundMarks[i] !== 'number') {
       return false;
     }
   }
@@ -135,13 +135,16 @@ const LOCAL_STORAGE_KEY_ONGOING_PRACTICE = 'darts-kikuyama-ongoingPractice';
 const LOCAL_STORAGE_KEY_PRACTICES = 'darts-kikuyama-practices';
 export function loadOngoingPracticeFromStorage(): Practice|null {
   const str = window.localStorage.getItem(LOCAL_STORAGE_KEY_ONGOING_PRACTICE);
-  if(str===null) {
+  if(str===null || str==='') {
     return null;
   }
   try {
     const obj = JSON.parse(str);
     if(isPractice(obj)) {
       return obj;
+    }
+    else {
+      console.log('saved ongoing practice is broken', str);
     }
   }
   catch(e) {

@@ -125,6 +125,7 @@ export default function Home() {
   const tempDarts = React.useRef<number|null>(null);
   const commentRef = React.useRef<HTMLInputElement | null>(null);
   const isRollingBackRef = React.useRef<boolean>(false);
+  const isDirtyRef = React.useRef<boolean>(false);
   const [, setForceRerender] = React.useState<number>(0);
   const currentTarget = getCurrentTarget(practice);
 
@@ -156,6 +157,7 @@ export default function Home() {
     else {
       tempDarts.current = null;
     }
+    isDirtyRef.current = true;
     forceRerender();
   }
 
@@ -179,10 +181,12 @@ export default function Home() {
           tempDarts.current = 3;
           forceRerender();
           writeOngoingPracticeToStorage(current);
+          isDirtyRef.current = false;
           return current;
         }
       }
       writeOngoingPracticeToStorage(current);
+      isDirtyRef.current = false;
       return current;
     });
   }
@@ -313,7 +317,7 @@ export default function Home() {
               </button>
               <button
                 onClick={cancelRound}
-                disabled={practice.target20.darts <= 0 || tempMarks?.current !== null}
+                disabled={practice.target20.darts <= 0 || isDirtyRef.current}
               >
                 直前のラウンドを<br/>取り消し
               </button>

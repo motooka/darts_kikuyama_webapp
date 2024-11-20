@@ -305,7 +305,7 @@ export default function Home() {
               </button>
               <button
                 onClick={cancelRound}
-                disabled={practice.target20.darts <= 0}
+                disabled={practice.target20.darts <= 0 || tempMarks?.current !== null}
               >
                 直前のラウンドを<br/>取り消し
               </button>

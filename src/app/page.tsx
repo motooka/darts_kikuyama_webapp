@@ -12,7 +12,12 @@ import {formatMPR, formatYMDHM} from "@/app/utils";
 
 function renderTargetCell(t: TargetHistory) {
   const mpr = formatMPR(t.marks, t.darts);
-  return `${t.darts}本 ${mpr}MPR`;
+  return (
+    <>
+      <span className={styles.historiesTableMark}>{t.darts}本</span>
+      <span className={styles.historiesTableMpr}>{mpr}MPR</span>
+    </>
+  );
 }
 
 export default function Home() {
@@ -29,7 +34,7 @@ export default function Home() {
       <div className={styles.ctas}>
         <Link href="/new" className={styles.primary}>{ongoing===null ? '新規の練習' : '練習の再開'}</Link>
       </div>
-      <div>
+      <div style={{overflowX: 'scroll', width: 'calc(100vw - 64px)'}}>
         <h2>直近10練習の記録</h2>
         {
           practices.length <= 0 ? <p>過去の記録はありません</p> : (
@@ -43,7 +48,7 @@ export default function Home() {
                 <th>17</th>
                 <th>16</th>
                 <th>15</th>
-                <th>B</th>
+                <th>Bull</th>
               </tr>
               </thead>
               <tbody>

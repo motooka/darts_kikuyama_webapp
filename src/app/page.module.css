@@ -106,6 +106,14 @@ a.secondary {
   margin: 2em auto;
 }
 
+.historiesTableMark {
+  display: inline-block;
+}
+.historiesTableMpr {
+  display: inline-block;
+  font-size: 80%;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {

@@ -28,6 +28,8 @@ function renderTargetHistory(his: TargetHistory) {
     <>
       {done}
       {his.marks}marks / {his.darts}本 → {mpr}MPR
+      <br/>
+      {his.roundMarks.join(' / ')}
     </>
   );
 }
@@ -245,14 +247,14 @@ export default function Home() {
   return (
     <>
       <h2>練習を記録する</h2>
-      <ul>
+      <ul style={{width:'calc(100vw - 64px)', maxWidth: '600px'}}>
         <li>20 : {renderTargetHistory(practice.target20)}</li>
-        <li>19 : {renderTargetHistory(practice.target19)}</li>
-        <li>18 : {renderTargetHistory(practice.target18)}</li>
-        <li>17 : {renderTargetHistory(practice.target17)}</li>
-        <li>16 : {renderTargetHistory(practice.target16)}</li>
-        <li>15 : {renderTargetHistory(practice.target15)}</li>
-        <li>Bull : {renderTargetHistory(practice.targetBull)}</li>
+        {practice.target19 === currentTarget?.history || practice.target19.darts > 0 ? <li>19 : {renderTargetHistory(practice.target19)}</li> : <></>}
+        {practice.target18 === currentTarget?.history || practice.target18.darts > 0 ? <li>18 : {renderTargetHistory(practice.target18)}</li> : <></>}
+        {practice.target17 === currentTarget?.history || practice.target17.darts > 0 ? <li>17 : {renderTargetHistory(practice.target17)}</li> : <></>}
+        {practice.target16 === currentTarget?.history || practice.target16.darts > 0 ? <li>16 : {renderTargetHistory(practice.target16)}</li> : <></>}
+        {practice.target15 === currentTarget?.history || practice.target15.darts > 0 ? <li>15 : {renderTargetHistory(practice.target15)}</li> : <></>}
+        {practice.targetBull === currentTarget?.history || practice.targetBull.darts > 0 ? <li>Bull : {renderTargetHistory(practice.targetBull)}</li> : <></>}
         <li>全体 : {renderSummary(practice)}</li>
       </ul>
       {

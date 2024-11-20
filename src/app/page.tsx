@@ -49,6 +49,7 @@ export default function Home() {
                 <th>16</th>
                 <th>15</th>
                 <th>Bull</th>
+                <th style={{minWidth: '10rem', width: '10rem'}}>コメント</th>
               </tr>
               </thead>
               <tbody>
@@ -64,6 +65,7 @@ export default function Home() {
                       <td>{renderTargetCell(practice.target16)}</td>
                       <td>{renderTargetCell(practice.target15)}</td>
                       <td>{renderTargetCell(practice.targetBull)}</td>
+                      <td style={{whiteSpace: 'pre-wrap', wordWrap: 'break-word', wordBreak: 'break-all'}}>{practice.comment ?? ''}</td>
                     </tr>
                   );
                 })

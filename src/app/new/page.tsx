@@ -171,11 +171,34 @@ export default function Home() {
         if(tuple.history.marks < FINISH_THRESHOLD) {
           tuple.history.marks += tempMarks.current ?? 0;
           tuple.history.darts += tempDarts.current ?? 3;
+          tuple.history.roundMarks.push(tempMarks.current ?? 0);
           tempMarks.current = null;
           tempDarts.current = 3;
           forceRerender();
           writeOngoingPracticeToStorage(current);
           return current;
+        }
+      }
+      writeOngoingPracticeToStorage(current);
+      return current;
+    });
+  }
+
+  function cancelRound() {
+    setPractice((current) => {
+      const tuples = getTargetTuples(current).reverse();
+      for(const tuple of tuples) {
+        if(tuple.history.roundMarks.length > 0) {
+          console.log('cancelling round : ', tuple);
+          const lastRoundMark = tuple.history.roundMarks[tuple.history.roundMarks.length-1];
+          const lastRoundDarts = Math.min(3, tuple.history.darts);
+          tuple.history.marks -= lastRoundMark;
+          tuple.history.darts -= lastRoundDarts;
+          tuple.history.roundMarks.splice(-1, 1); // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+          tempMarks.current = lastRoundMark;
+          tempDarts.current = lastRoundDarts;
+          forceRerender();
+          break;
         }
       }
       writeOngoingPracticeToStorage(current);
@@ -222,29 +245,42 @@ export default function Home() {
       </ul>
       {
         currentTarget === null ? <></> : (
-          <fieldset>
-            <legend>ターゲット : {currentTarget.name}</legend>
-            <dl>
+          <fieldset style={{width: '100%'}}>
+            <legend>次のターゲット : {currentTarget.name}</legend>
+            <div style={{textAlign: 'center', marginBottom: '2em'}}>
+              <span
+                style={{fontSize: '300%', border: '1px dashed black', padding: '0.2rem'}}>{currentTarget.name}</span>
+              <div style={{display: 'inline-block', width: '2rem'}}></div>
+              残り
+              <span style={{fontSize: '300%'}}>{FINISH_THRESHOLD - currentTarget.history.marks}</span>
+              マーク
+            </div>
+
+            <dl style={{margin: '1rem auto'}}>
               <dt>マーク数</dt>
               <dd>
                 {
                   getPossibleMarksForThisRound(practice).map((value, index) => {
                     return (
-                      <label key={'radio-'+index}>
-                        <input type="radio" name="marks" value={value} onChange={changeTempMarks} checked={tempMarks.current===value}/>
+                      <label key={'radio-' + index} style={{margin: '0.2rem'}}>
+                        <input type="radio" name="marks" value={value} onChange={changeTempMarks}
+                               checked={tempMarks.current === value}/>
                         {value}
                       </label>
                     );
                   })
                 }
               </dd>
+            </dl>
+            <dl style={{margin: '1rem auto'}}>
               <dt>要した本数</dt>
               <dd>
                 {
                   getPossibleDartsForThisRound(practice, tempMarks.current).map((value, index) => {
                     return (
-                      <label key={'radio-'+index}>
-                        <input type="radio" name="darts" value={value} onChange={changeTempDarts} checked={tempDarts.current===value}/>
+                      <label key={'radio-' + index} style={{margin: '0.2rem'}}>
+                        <input type="radio" name="darts" value={value} onChange={changeTempDarts}
+                               checked={tempDarts.current === value}/>
                         {value}
                       </label>
                     );
@@ -253,18 +289,31 @@ export default function Home() {
 
               </dd>
             </dl>
-            <button onClick={updatePractice}>更新</button>
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+              <button
+                onClick={updatePractice}
+                disabled={tempMarks?.current === null || tempDarts?.current === null}
+                style={{fontSize: '200%'}}
+              >
+                ラウンド登録
+              </button>
+              <button
+                onClick={cancelRound}
+                disabled={practice.target20.darts <= 0}
+              >
+                直前のラウンドを<br/>取り消し
+              </button>
+            </div>
           </fieldset>
         )
       }
-      {
-        currentTarget !== null ? <></> : (
-          <fieldset>
-            <legend>コメントを残す</legend>
-            <input type="text" ref={commentRef} className={styles.commentField} />
-          </fieldset>
-        )
-      }
+      <fieldset>
+        <legend>今回の練習全体のコメント</legend>
+        <p>
+          セッティングやコンディション等
+        </p>
+        <input type="text" ref={commentRef} className={styles.commentField}/>
+      </fieldset>
       <div className={styles.ctas}>
         <button onClick={saveAndFinish}>保存して終了</button>
         <button onClick={pauseAndReturn}>練習を中断(後で再開)</button>

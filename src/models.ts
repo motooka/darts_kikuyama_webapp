@@ -1,3 +1,5 @@
+import {formatYMD, formatHM} from '@/app/utils';
+
 export interface TargetHistory {
   marks: number;
   darts: number;
@@ -129,6 +131,41 @@ export function createBlankPractice(): Practice {
     target15: createBlankTargetHistory(),
     targetBull: createBlankTargetHistory(),
   };
+}
+
+function buildCsvLine(fields: (string|number)[]): string {
+  return '"' + fields.map((field) => {
+    if(typeof field !== 'string') {
+      return String(field);
+    }
+    return field
+      .replace(/[\r\n\t]+/g, ' ')
+      .replace(/"/g, '""')
+      ;
+  }).join('","') + '"';
+}
+
+export function buildPracticesCsv(ps: Practice[]): string {
+  const lines: string[] = ps.map((practice) => {
+    const targetTuples = getTargetTuples(practice);
+    const totalDarts = targetTuples.reduce((total, tuple) => total + tuple.history.darts, 0);
+    return buildCsvLine([
+      formatYMD(practice.startYMD),
+      formatHM(practice.startHMS),
+      practice.target20.darts,
+      practice.target19.darts,
+      practice.target18.darts,
+      practice.target17.darts,
+      practice.target16.darts,
+      practice.target15.darts,
+      practice.targetBull.darts,
+      totalDarts - practice.targetBull.darts,
+      totalDarts,
+      practice.comment ?? '',
+    ]);
+  });
+  lines.splice(0, 0, buildCsvLine(['練習日', '開始時刻', '20', '19', '18', '17', '16', '15', 'Bull', 'Bull以外', '合計', 'コメント']));
+  return lines.join("\n");
 }
 
 const LOCAL_STORAGE_KEY_ONGOING_PRACTICE = 'darts-kikuyama-ongoingPractice';

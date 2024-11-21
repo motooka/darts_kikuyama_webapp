@@ -44,6 +44,10 @@ a:hover {
   text-decoration: underline;
 }
 
+button {
+  padding: 0.2rem 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

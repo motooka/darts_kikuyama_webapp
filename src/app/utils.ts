@@ -14,11 +14,19 @@ export function formatMPR(marks: number, darts: number): string {
   return mprFormatter.format(marks / (darts / 3.0));
 }
 
-export function formatYMDHM(ymd: number, hms: number): string {
+export function formatYMD(ymd: number): string {
   const year = Math.floor(ymd/10000);
   const month = padZero(Math.floor((ymd%10000) / 100), 2);
   const day = padZero(ymd%100, 2);
+  return `${year}/${month}/${day}`;
+}
+
+export function formatHM(hms: number): string {
   const hour = padZero(Math.floor(hms/10000), 2);
   const minute = padZero(Math.floor((hms%10000) / 100), 2);
-  return `${year}/${month}/${day} ${hour}:${minute}`;
+  return `${hour}:${minute}`;
+}
+
+export function formatYMDHM(ymd: number, hms: number): string {
+  return `${formatYMD(ymd)} ${formatHM(hms)}`;
 }

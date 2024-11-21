@@ -6,9 +6,11 @@ import React from 'react';
 import {
   TargetHistory,
   Practice,
-  loadOngoingPracticeFromStorage, loadPracticesFromStorage
+  loadOngoingPracticeFromStorage,
+  loadPracticesFromStorage, buildPracticesCsv
 } from '@/models';
 import {formatMPR, formatYMDHM} from "@/app/utils";
+import { saveAs } from 'file-saver';
 
 function renderTargetCell(t: TargetHistory) {
   const mpr = formatMPR(t.marks, t.darts);
@@ -18,6 +20,23 @@ function renderTargetCell(t: TargetHistory) {
       <span className={styles.historiesTableMpr}>{mpr}MPR</span>
     </>
   );
+}
+
+function downloadCSV() {
+  console.log('download csv');
+  const practices = loadPracticesFromStorage();
+  const bomUTF8 = new Uint8Array([0xef, 0xbb, 0xbf]);
+  const str = buildPracticesCsv(practices);
+  const blob = new Blob([bomUTF8, str], {type: "text/csv;charset=utf-8"})
+  saveAs(blob, 'darts-kikuyama.csv');
+}
+
+function downloadRawData() {
+  console.log('download raw data');
+  const practices = loadPracticesFromStorage();
+  const strData = JSON.stringify(practices);
+  const blob = new Blob([strData], {type: "application/json;charset=utf-8"})
+  saveAs(blob, 'darts-kikuyama.json');
 }
 
 export default function Home() {
@@ -89,6 +108,13 @@ export default function Home() {
       <div>
         <h2>日ごとの推移</h2>
         <p>後で作ります…</p>
+      </div>
+      <div>
+        <h2>データのexport</h2>
+        <div className={styles.ctas}>
+          <button onClick={downloadCSV} disabled={practices.length<=0}>本数のCSV出力<br/>(Excel等での分析にどうぞ)</button>
+          <button onClick={downloadRawData} disabled={practices.length<=0}>生データ(JSON)出力<br/>(分析にはプログラミング技術が必要です)</button>
+        </div>
       </div>
     </>
   );

@@ -143,7 +143,6 @@ export default function Home() {
 
   function changeTempMarks(event: React.MouseEvent<HTMLButtonElement>) {
     const newMarksInt = Number(event.currentTarget.value);
-    console.log('tempMark button click', newMarksInt);
     tempMarks.current = newMarksInt;
     const possibleDartsForThisRound = getPossibleDartsForThisRound(practice, newMarksInt);
     if(possibleDartsForThisRound.length === 1) {

@@ -111,6 +111,21 @@ a.secondary {
   opacity: 0.6;
 }
 
+.pseudoRadioWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pseudoRadioButton {
+  padding: 1rem 0.9rem;
+  margin: 0.5rem 0.4rem;
+  font-size: 200%;
+}
+.pseudoRadioButtonSelected {
+  background-color: var(--caution-background-color);
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {

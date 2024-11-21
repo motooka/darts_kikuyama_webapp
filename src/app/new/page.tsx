@@ -141,8 +141,9 @@ export default function Home() {
     setForceRerender((current) => current+1);
   }
 
-  function changeTempMarks(event: React.ChangeEvent<HTMLInputElement>) {
-    const newMarksInt = Number(event.target.value);
+  function changeTempMarks(event: React.MouseEvent<HTMLButtonElement>) {
+    const newMarksInt = Number(event.currentTarget.value);
+    console.log('tempMark button click', newMarksInt);
     tempMarks.current = newMarksInt;
     const possibleDartsForThisRound = getPossibleDartsForThisRound(practice, newMarksInt);
     if(possibleDartsForThisRound.length === 1) {
@@ -161,8 +162,8 @@ export default function Home() {
     forceRerender();
   }
 
-  function changeTempDarts(event: React.ChangeEvent<HTMLInputElement>) {
-    tempDarts.current = Number(event.target.value);
+  function changeTempDarts(event: React.MouseEvent<HTMLButtonElement>) {
+    tempDarts.current = Number(event.currentTarget.value);
     forceRerender();
   }
 
@@ -248,6 +249,10 @@ export default function Home() {
     router.push('/');
   }
 
+  const possibleMarksForThisRound = getPossibleMarksForThisRound(practice);
+  const possibleDartsForThisRound = getPossibleDartsForThisRound(practice, tempMarks.current);
+  const maxDarts = getCurrentRoundDartsLeft(practice);
+
   return (
     <>
       <h2>練習を記録する</h2>
@@ -272,19 +277,28 @@ export default function Home() {
               残り
               <span style={{fontSize: '300%'}}>{FINISH_THRESHOLD - currentTarget.history.marks}</span>
               マーク
+              {maxDarts<3 ? (<div style={{fontSize:'160%'}}>
+                ※使えるダーツは{maxDarts}本です
+              </div>) : <></>}
             </div>
 
             <dl style={{margin: '1rem auto'}}>
               <dt>マーク数</dt>
-              <dd>
+              <dd className={styles.pseudoRadioWrapper}>
                 {
-                  getPossibleMarksForThisRound(practice).map((value, index) => {
+                  [0,1,2,3,4,5,6,7,8,9].map((value, index) => {
+                    // TODO: このクラス名の取り回しは、きっとより良い書き方があるはず。（優先度低い）
+                    const buttonClass = styles.pseudoRadioButton + ' ' + (tempMarks?.current === value ? styles.pseudoRadioButtonSelected : '');
                     return (
-                      <label key={'radio-' + index} style={{margin: '0.2rem'}}>
-                        <input type="radio" name="marks" value={value} onChange={changeTempMarks}
-                               checked={tempMarks.current === value}/>
+                      <button
+                        key={'markCount-' + index}
+                        value={value}
+                        onClick={changeTempMarks}
+                        className={buttonClass}
+                        disabled={!possibleMarksForThisRound.includes(value)}
+                      >
                         {value}
-                      </label>
+                      </button>
                     );
                   })
                 }
@@ -292,15 +306,21 @@ export default function Home() {
             </dl>
             <dl style={{margin: '1rem auto'}}>
               <dt>要した本数</dt>
-              <dd>
+              <dd className={styles.pseudoRadioWrapper}>
                 {
-                  getPossibleDartsForThisRound(practice, tempMarks.current).map((value, index) => {
+                  [1,2,3].map((value, index) => {
+                    // TODO: このクラス名の取り回しは、きっとより良い書き方があるはず。（優先度低い）
+                    const buttonClass = styles.pseudoRadioButton + ' ' + (tempDarts?.current === value ? styles.pseudoRadioButtonSelected : '');
                     return (
-                      <label key={'radio-' + index} style={{margin: '0.2rem'}}>
-                        <input type="radio" name="darts" value={value} onChange={changeTempDarts}
-                               checked={tempDarts.current === value}/>
+                      <button
+                        key={'dartCount-' + index}
+                        value={value}
+                        onClick={changeTempDarts}
+                        className={buttonClass}
+                        disabled={!possibleDartsForThisRound.includes(value)}
+                      >
                         {value}
-                      </label>
+                      </button>
                     );
                   })
                 }
@@ -311,13 +331,14 @@ export default function Home() {
               <button
                 onClick={updatePractice}
                 disabled={tempMarks?.current === null || tempDarts?.current === null}
-                style={{fontSize: '200%'}}
+                style={{fontSize: '180%'}}
               >
                 ラウンド登録
               </button>
               <button
                 onClick={cancelRound}
                 disabled={practice.target20.darts <= 0 || isDirtyRef.current}
+                style={{fontSize: '60%'}}
               >
                 直前のラウンドを<br/>取り消し
               </button>

@@ -45,7 +45,7 @@ a:hover {
 }
 
 button {
-  padding: 0.2rem 1rem;
+  padding: 0.2rem 0.8rem;
 }
 
 @media (prefers-color-scheme: dark) {

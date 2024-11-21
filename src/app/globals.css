@@ -31,15 +31,27 @@ body {
   margin: 0;
 }
 
+header > h1 {
+  word-break: keep-all;
+  text-align: center;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+p {
+  word-break: break-all;
 }
 
 table {

@@ -6,13 +6,12 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
   min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
+  padding: 80px 80px 0 80px;
+  gap: 32px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -93,13 +92,12 @@ a.secondary {
 }
 
 .footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
+  padding: 1.5rem 1rem;
+  background: var(--gray-alpha-200);
+  text-align: center;
 }
-
-.footer img {
-  flex-shrink: 0;
+.footer > div {
+  margin: 0.5rem auto;
 }
 
 .commentField {
@@ -114,6 +112,7 @@ a.secondary {
 .historiesTableMpr {
   display: inline-block;
   font-size: 80%;
+  opacity: 0.6;
 }
 
 /* Enable hover only on non-touch devices */
@@ -136,8 +135,7 @@ a.secondary {
 
 @media (max-width: 600px) {
   .page {
-    padding: 32px;
-    padding-bottom: 80px;
+    padding: 32px 32px 0 32px;
   }
 
   .main {
@@ -160,12 +158,6 @@ a.secondary {
 
   a.secondary {
     min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
   }
 }
 

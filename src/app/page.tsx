@@ -7,12 +7,12 @@ import {
   TargetHistory,
   Practice,
   loadOngoingPracticeFromStorage,
-  loadPracticesFromStorage, buildPracticesCsv
+  loadPracticesFromStorage, buildPracticesCsv, getTargetTuples
 } from '@/models';
 import {formatMPR, formatYMDHM} from "@/app/utils";
 import { saveAs } from 'file-saver';
 
-function renderTargetCell(t: TargetHistory) {
+function renderTargetCell(t: Omit<TargetHistory, 'roundMarks'>) {
   const mpr = formatMPR(t.marks, t.darts);
   return (
     <>
@@ -64,10 +64,12 @@ export default function Home() {
         <h2>直近10練習の記録</h2>
         {
           practices.length <= 0 ? <p>過去の記録はありません</p> : (
-            <table>
+            <table style={{textAlign: 'center'}}>
               <thead>
               <tr>
                 <th>開始</th>
+                <th>合計</th>
+                <th>20〜15計</th>
                 <th>20</th>
                 <th>19</th>
                 <th>18</th>
@@ -81,9 +83,24 @@ export default function Home() {
               <tbody>
               {
                 practices.slice(-10).reverse().map((practice, index) => {
+                  const tuples = getTargetTuples(practice);
+                  const totalMarks = tuples.reduce((sum, practice) => {return sum + practice.history.marks}, 0);
+                  const totalDarts = tuples.reduce((sum, practice) => {return sum + practice.history.darts}, 0);
                   return (
                     <tr key={index}>
                       <td>{formatYMDHM(practice.startYMD, practice.startHMS)}</td>
+                      <td>
+                        {renderTargetCell({
+                          marks: totalMarks,
+                          darts: totalDarts,
+                        })}
+                      </td>
+                      <td>
+                        {renderTargetCell({
+                          marks: totalMarks - practice.targetBull.marks,
+                          darts: totalDarts - practice.targetBull.darts,
+                        })}
+                      </td>
                       <td>{renderTargetCell(practice.target20)}</td>
                       <td>{renderTargetCell(practice.target19)}</td>
                       <td>{renderTargetCell(practice.target18)}</td>
@@ -112,8 +129,9 @@ export default function Home() {
       <div>
         <h2>データのexport</h2>
         <div className={styles.ctas}>
-          <button onClick={downloadCSV} disabled={practices.length<=0}>本数のCSV出力<br/>(Excel等での分析にどうぞ)</button>
-          <button onClick={downloadRawData} disabled={practices.length<=0}>生データ(JSON)出力<br/>(分析にはプログラミング技術が必要です)</button>
+          <button onClick={downloadCSV} disabled={practices.length <= 0}>本数のCSV出力<br/>(Excel等での分析にどうぞ)
+          </button>
+          <button onClick={downloadRawData} disabled={practices.length <= 0}>生データ(JSON)出力<br/>(分析にはプログラミング技術が必要です)</button>
         </div>
       </div>
     </>

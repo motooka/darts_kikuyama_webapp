@@ -286,15 +286,14 @@ export default function Home() {
               <dd className={styles.pseudoRadioWrapper}>
                 {
                   [0,1,2,3,4,5,6,7,8,9].map((value, index) => {
-                    // TODO: このクラス名の取り回しは、きっとより良い書き方があるはず。（優先度低い）
-                    const buttonClass = styles.pseudoRadioButton + ' ' + (tempMarks?.current === value ? styles.pseudoRadioButtonSelected : '');
                     return (
                       <button
                         key={'markCount-' + index}
                         value={value}
                         onClick={changeTempMarks}
-                        className={buttonClass}
+                        className={styles.pseudoRadioButton}
                         disabled={!possibleMarksForThisRound.includes(value)}
+                        data-selected={tempMarks?.current === value ? 'selected' : ''}
                       >
                         {value}
                       </button>
@@ -308,15 +307,14 @@ export default function Home() {
               <dd className={styles.pseudoRadioWrapper}>
                 {
                   [1,2,3].map((value, index) => {
-                    // TODO: このクラス名の取り回しは、きっとより良い書き方があるはず。（優先度低い）
-                    const buttonClass = styles.pseudoRadioButton + ' ' + (tempDarts?.current === value ? styles.pseudoRadioButtonSelected : '');
                     return (
                       <button
                         key={'dartCount-' + index}
                         value={value}
                         onClick={changeTempDarts}
-                        className={buttonClass}
+                        className={styles.pseudoRadioButton}
                         disabled={!possibleDartsForThisRound.includes(value)}
+                        data-selected={tempDarts?.current === value ? 'selected' : ''}
                       >
                         {value}
                       </button>

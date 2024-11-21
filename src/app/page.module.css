@@ -6,6 +6,8 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
+  --caution-background-color: #ffffa0;
+
   display: flex;
   flex-direction: column;
   align-content: space-between;
@@ -22,6 +24,8 @@
 
     --button-primary-hover: #ccc;
     --button-secondary-hover: #1a1a1a;
+
+    --caution-background-color: #808000;
   }
 }
 
@@ -63,6 +67,13 @@
   font-size: 16px;
   line-height: 20px;
   font-weight: 500;
+}
+
+.caution {
+  background: var(--caution-background-color);
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
 }
 
 a.primary {

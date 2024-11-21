@@ -56,6 +56,11 @@ export default function Home() {
         <br/>
         このツールは、この練習法を実践するにあたって、記録をサポートするものです。データはサーバ等ではなくて、お使いの端末の中に保存されます。
       </p>
+      <p className={styles.caution}>
+        <span style={{fontSize: '200%', fontWeight: 'bold', fontVariantEmoji: 'emoji'}}>⚠️注意⚠️</span>
+        <br/>
+        練習中、目を離した隙にスマートフォンを盗まれないようにご注意下さい。
+      </p>
       <div className={styles.ctas}>
         <Link href="/new" className={styles.primary}>{ongoing === null ? '新規の練習' : '練習の再開'}</Link>
       </div>

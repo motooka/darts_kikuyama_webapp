@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <>
       <p>
-        「菊池山口練習法」は、各クリケットナンバー（20〜15, Bull）で10マークするのにかかった本数を記録していく、という練習法です。
+        ダーツの「菊池山口練習法」は、各クリケットナンバー（20〜15, Bull）で10マークするのにかかった本数を記録していく、という練習法です。
         <br/>
         本家の解説動画は <a href="https://youtu.be/Ve37QZhcwsQ" target="_blank" rel="noopener">https://youtu.be/Ve37QZhcwsQ</a> をご覧下さい。
         <br/>

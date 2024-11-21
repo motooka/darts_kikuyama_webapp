@@ -56,7 +56,6 @@ export default function Home() {
         <br/>
         このツールは、この練習法を実践するにあたって、記録をサポートするものです。データはサーバ等ではなくて、お使いの端末の中に保存されます。
       </p>
-      <p>※まだ開発中です。予告なく仕様やデザインが変わったり、過去のデータが消えたりすることがあります。</p>
       <div className={styles.ctas}>
         <Link href="/new" className={styles.primary}>{ongoing === null ? '新規の練習' : '練習の再開'}</Link>
       </div>
@@ -129,9 +128,14 @@ export default function Home() {
       <div>
         <h2>データのexport</h2>
         <div className={styles.ctas}>
-          <button onClick={downloadCSV} disabled={practices.length <= 0}>本数のCSV出力<br/>(Excel等での分析にどうぞ)
+          <button onClick={downloadCSV} disabled={practices.length <= 0}>
+            所用本数のCSV出力<br/>
+            (Excel等での分析にどうぞ)
           </button>
-          <button onClick={downloadRawData} disabled={practices.length <= 0}>生データ(JSON)出力<br/>(分析にはプログラミング技術が必要です)</button>
+          <button onClick={downloadRawData} disabled={practices.length <= 0}>
+            生データ(JSON)出力<br/>
+            (分析にはプログラミング技術が必要です)
+          </button>
         </div>
       </div>
     </>

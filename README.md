@@ -25,3 +25,6 @@ https://motooka.github.io/darts_kikuyama_webapp/
 - `npm run lint` → lint
 - `main` branch に push すると、GitHub Actions の動きによって GitHub Pages にデプロイされる
 	- 参考 : [GitHub Pages のデプロイに Custom GitHub Actions Workflows を使用することで、ビルドの成果物の commit が不要になりました (DevelopersIO)](https://dev.classmethod.jp/articles/github-pages-by-actions/)
+
+## ライセンス
+[MIT LICENSE](./LICENSE)

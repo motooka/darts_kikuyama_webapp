@@ -44,6 +44,9 @@ export default function RootLayout({
           >T.MOTOOKA</a>
         </div>
         <div>
+          license : <a href="https://github.com/motooka/darts_kikuyama_webapp/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>
+        </div>
+        <div>
           build version <code>{buildInfo.built}</code>
         </div>
       </footer>

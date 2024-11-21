@@ -120,6 +120,8 @@ a.secondary {
 .pseudoRadioButton {
   padding: 1rem 0.9rem;
   margin: 0.5rem 0.4rem;
+  /* ここでの background-color は本来は指定は不要だけれども、iOS Safari では色が未指定の時と指定ありの時とでボタンのサイズが大きく変わってしまうため、平時も何か背景色を指定することが重要。なお、Mac Safari も本バグがあるが、差分は小さめ。 */
+  background-color: var(--gray-alpha-100);
   font-size: 200%;
 }
 .pseudoRadioButton[data-selected=selected] {

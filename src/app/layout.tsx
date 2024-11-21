@@ -6,8 +6,13 @@ import styles from "@/app/page.module.css";
 import {buildInfo} from "@/buildInfo";
 
 export const metadata: Metadata = {
-  title: "菊池山口練習法🎯 記録アプリ",
-  description: "練習がんばろう",
+  title: '菊池山口練習法🎯 記録アプリ',
+  description: '練習がんばろう',
+  other: {
+    'twitter:card': 'summary',
+    'twitter:title': '菊池山口練習法🎯 記録アプリ',
+    'twitter:description': 'ダーツの練習法「菊池山口練習法」を実践するにあたって欠かせない、記録を取るためのツールです。',
+  },
 };
 
 export default function RootLayout({

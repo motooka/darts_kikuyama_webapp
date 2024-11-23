@@ -268,7 +268,7 @@ export default function Home() {
       {
         currentTarget === null ? <></> : (
           <fieldset style={{width: '100%'}}>
-            <legend>次のターゲット : {currentTarget.name}</legend>
+            <legend>現在のターゲット : {currentTarget.name}</legend>
             <div style={{textAlign: 'center', marginBottom: '2em'}}>
               <span
                 style={{fontSize: '300%', border: '1px dashed black', padding: '0.2rem'}}>{currentTarget.name}</span>
@@ -276,6 +276,9 @@ export default function Home() {
               残り
               <span style={{fontSize: '300%'}}>{FINISH_THRESHOLD - currentTarget.history.marks}</span>
               マーク
+              <div style={{fontSize: '90%', margin:'0.5rem 0 0.2rem 0'}}>
+                {currentTarget.history.marks}マーク / {currentTarget.history.darts}本 → {formatMPR(currentTarget.history.marks, currentTarget.history.darts)}MPR
+              </div>
               {maxDarts<3 ? (<div style={{fontSize:'160%'}}>
                 ※使えるダーツは{maxDarts}本です
               </div>) : <></>}

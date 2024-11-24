@@ -15,7 +15,7 @@ import {formatMPR} from "@/app/utils";
 
 const FINISH_THRESHOLD = 10;
 
-function renderTargetHistory(his: TargetHistory) {
+function renderTargetHistory(his: TargetHistory, totalDartsBeforeThis: number) {
   const done = (his.marks >= FINISH_THRESHOLD) ? '✅' : '';
   const started = (his.darts > 0);
   const mpr = formatMPR(his.marks, his.darts);
@@ -24,12 +24,33 @@ function renderTargetHistory(his: TargetHistory) {
     return <>未挑戦</>;
   }
 
+  let dartsForThisTarget = his.darts;
+  let isFirstRound = true;
+
   return (
     <>
       {done}
       {his.marks}marks / {his.darts}本 → {mpr}MPR
       <br/>
-      {his.roundMarks.join(' / ')}
+      {
+        his.roundMarks.map((roundMark) => {
+          let dartsForThisRound = 3;
+          if(isFirstRound) {
+            isFirstRound = false;
+            if(totalDartsBeforeThis%3 !== 0) {
+              dartsForThisRound = 3 - totalDartsBeforeThis%3;
+            }
+          }
+          dartsForThisRound = Math.min(dartsForThisRound, dartsForThisTarget);
+          dartsForThisTarget -= dartsForThisRound;
+
+          //return `${roundMark}:${dartsForThisRound}:${dartsForThisTarget}`;
+          if(dartsForThisRound === 3) {
+            return String(roundMark);
+          }
+          return String(roundMark) + '(' + dartsForThisRound + '本)';
+        }).join(' / ')
+      }
     </>
   );
 }
@@ -252,17 +273,29 @@ export default function Home() {
   const possibleDartsForThisRound = getPossibleDartsForThisRound(practice, tempMarks.current);
   const maxDarts = getCurrentRoundDartsLeft(practice);
 
+  let totalDarts = 0;
+
   return (
     <>
       <h2>練習を記録する</h2>
       <ul style={{width:'calc(100vw - 64px)', maxWidth: '600px'}}>
-        <li>20 : {renderTargetHistory(practice.target20)}</li>
-        {practice.target19 === currentTarget?.history || practice.target19.darts > 0 ? <li>19 : {renderTargetHistory(practice.target19)}</li> : <></>}
-        {practice.target18 === currentTarget?.history || practice.target18.darts > 0 ? <li>18 : {renderTargetHistory(practice.target18)}</li> : <></>}
-        {practice.target17 === currentTarget?.history || practice.target17.darts > 0 ? <li>17 : {renderTargetHistory(practice.target17)}</li> : <></>}
-        {practice.target16 === currentTarget?.history || practice.target16.darts > 0 ? <li>16 : {renderTargetHistory(practice.target16)}</li> : <></>}
-        {practice.target15 === currentTarget?.history || practice.target15.darts > 0 ? <li>15 : {renderTargetHistory(practice.target15)}</li> : <></>}
-        {practice.targetBull === currentTarget?.history || practice.targetBull.darts > 0 ? <li>Bull : {renderTargetHistory(practice.targetBull)}</li> : <></>}
+        {
+          getTargetTuples(practice).map((tuple) => {
+            if(tuple.history === currentTarget?.history || tuple.history.darts > 0) {
+              const totalDartsBefore = totalDarts;
+              totalDarts += tuple.history.darts;
+              return (
+                <li key={'target-'+tuple.name}>
+                  {tuple.name + ' : '}
+                  {renderTargetHistory(tuple.history, totalDartsBefore)}
+                </li>
+              );
+            }
+            else {
+              return <div key={'target-'+tuple.name}></div>;
+            }
+          })
+        }
         <li>全体 : {renderSummary(practice)}</li>
       </ul>
       {

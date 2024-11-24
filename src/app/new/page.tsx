@@ -141,7 +141,6 @@ function getPossibleDartsForThisRound(p: Practice, tempMarks: number | null): nu
 
 function scrollToCurrentTarget() {
   const aim = document.getElementById('currentTargetAbove');
-  console.log(aim);
   if(aim) {
     aim.scrollIntoView({
       behavior: 'smooth',

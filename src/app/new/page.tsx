@@ -139,6 +139,17 @@ function getPossibleDartsForThisRound(p: Practice, tempMarks: number | null): nu
   return result;
 }
 
+function scrollToCurrentTarget() {
+  const aim = document.getElementById('currentTargetAbove');
+  console.log(aim);
+  if(aim) {
+    aim.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
+}
+
 export default function Home() {
   const router = useRouter();
   const [practice, setPractice] = React.useState(createBlankPractice());
@@ -210,6 +221,7 @@ export default function Home() {
       isDirtyRef.current = false;
       return current;
     });
+    setTimeout(scrollToCurrentTarget, 100);
   }
 
   function cancelRound() {
@@ -237,6 +249,7 @@ export default function Home() {
       writeOngoingPracticeToStorage(current);
       return current;
     });
+    setTimeout(scrollToCurrentTarget, 100);
   }
 
   function updateComment() {
@@ -298,6 +311,7 @@ export default function Home() {
         }
         <li>全体 : {renderSummary(practice)}</li>
       </ul>
+      <div id="currentTargetAbove"></div>
       {
         currentTarget === null ? <></> : (
           <fieldset style={{width: '100%'}}>

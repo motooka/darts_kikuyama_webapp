@@ -9,7 +9,7 @@ import {
   loadOngoingPracticeFromStorage,
   loadPracticesFromStorage, buildPracticesCsv, getTargetTuples
 } from '@/models';
-import {formatMPR, formatYMDHM} from "@/app/utils";
+import {formatMPR, formatYMD, formatYMDHM} from "@/app/utils";
 import { saveAs } from 'file-saver';
 
 function renderTargetCell(t: Omit<TargetHistory, 'roundMarks'>) {
@@ -45,6 +45,7 @@ export default function Home() {
   const [ongoing, setOngoing] = React.useState<Practice|null>(null);
   const [practices, setPractices] = React.useState<Practice[]>([]);
   const [seeAll, setSeeAll] = React.useState<boolean>(false);
+  const [seeTime, setSeeTime] = React.useState<boolean>(false);
   React.useEffect(() => {
     setOngoing(loadOngoingPracticeFromStorage());
     setPractices(loadPracticesFromStorage());
@@ -95,7 +96,7 @@ export default function Home() {
                   const totalDarts = tuples.reduce((sum, practice) => {return sum + practice.history.darts}, 0);
                   return (
                     <tr key={index}>
-                      <td>{formatYMDHM(practice.startYMD, practice.startHMS)}</td>
+                      <td>{seeTime ? formatYMDHM(practice.startYMD, practice.startHMS) : formatYMD(practice.startYMD)}</td>
                       <td>
                         {renderTargetCell({
                           marks: totalMarks,
@@ -128,15 +129,23 @@ export default function Home() {
             </table>
           )
         }
-        {
-          (practices.length > DEFAULT_HISTORY_COUNT && !seeAll) ? (
-            <div className={styles.ctas}>
-              <button onClick={() => {setSeeAll(true)}}>
+        <div className={styles.ctas}>
+          {
+            (practices.length > DEFAULT_HISTORY_COUNT && !seeAll) ? (
+              <button onClick={() => {
+                setSeeAll(true)
+              }}>
                 全部({practices.length}件)見る
               </button>
-            </div>
-          ) : <></>
-        }
+            ) : <></>
+          }
+          <label>
+            <input type="checkbox" checked={seeTime} onChange={() => {
+              setSeeTime((current) => !current)
+            }}/>
+            時刻も表示する
+          </label>
+        </div>
       </div>
       <div>
         <h2>日ごとの推移</h2>

@@ -68,11 +68,11 @@ export default function Home() {
       <div className={styles.ctas}>
         <Link href="/new" className={styles.primary}>{ongoing === null ? '新規の練習' : '練習の再開'}</Link>
       </div>
-      <div style={{overflowX: 'scroll', width: 'calc(100vw - 64px)', maxWidth: '600px'}}>
+      <div style={{overflowX: 'scroll', width: '100%'}}>
         <h2>これまでの練習の記録</h2>
         {
           practices.length <= 0 ? <p>過去の記録はありません</p> : (
-            <table style={{textAlign: 'center'}}>
+            <table style={{textAlign: 'center', fontSize: '80%'}}>
               <thead>
               <tr>
                 <th>開始</th>

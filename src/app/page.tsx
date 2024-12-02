@@ -39,9 +39,12 @@ function downloadRawData() {
   saveAs(blob, 'darts-kikuyama.json');
 }
 
+const DEFAULT_HISTORY_COUNT = 10;
+
 export default function Home() {
   const [ongoing, setOngoing] = React.useState<Practice|null>(null);
   const [practices, setPractices] = React.useState<Practice[]>([]);
+  const [seeAll, setSeeAll] = React.useState<boolean>(false);
   React.useEffect(() => {
     setOngoing(loadOngoingPracticeFromStorage());
     setPractices(loadPracticesFromStorage());
@@ -65,7 +68,7 @@ export default function Home() {
         <Link href="/new" className={styles.primary}>{ongoing === null ? '新規の練習' : '練習の再開'}</Link>
       </div>
       <div style={{overflowX: 'scroll', width: 'calc(100vw - 64px)', maxWidth: '600px'}}>
-        <h2>直近10練習の記録</h2>
+        <h2>これまでの練習の記録</h2>
         {
           practices.length <= 0 ? <p>過去の記録はありません</p> : (
             <table style={{textAlign: 'center'}}>
@@ -86,7 +89,7 @@ export default function Home() {
               </thead>
               <tbody>
               {
-                practices.slice(-10).reverse().map((practice, index) => {
+                practices.slice(seeAll ? 0 : -DEFAULT_HISTORY_COUNT).reverse().map((practice, index) => {
                   const tuples = getTargetTuples(practice);
                   const totalMarks = tuples.reduce((sum, practice) => {return sum + practice.history.marks}, 0);
                   const totalDarts = tuples.reduce((sum, practice) => {return sum + practice.history.darts}, 0);
@@ -124,6 +127,15 @@ export default function Home() {
               </tbody>
             </table>
           )
+        }
+        {
+          (practices.length > DEFAULT_HISTORY_COUNT && !seeAll) ? (
+            <div className={styles.ctas}>
+              <button onClick={() => {setSeeAll(true)}}>
+                全部({practices.length}件)見る
+              </button>
+            </div>
+          ) : <></>
         }
       </div>
       <div>

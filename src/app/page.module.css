@@ -117,6 +117,12 @@ a.secondary {
   justify-content: center;
 }
 
+.roundHistory {
+  font-size: 90%;
+  opacity: 0.7;
+  min-height: 1rem;
+}
+
 .pseudoRadioButton {
   padding: 1rem 0.9rem;
   margin: 0.5rem 0.4rem;

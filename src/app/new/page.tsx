@@ -21,7 +21,12 @@ function renderTargetHistory(his: TargetHistory, totalDartsBeforeThis: number) {
   const mpr = formatMPR(his.marks, his.darts);
 
   if(!started) {
-    return <>未挑戦</>;
+    return (
+      <>
+        未挑戦
+        <div className={styles.roundHistory}></div>
+      </>
+    );
   }
 
   let dartsForThisTarget = his.darts;
@@ -31,26 +36,27 @@ function renderTargetHistory(his: TargetHistory, totalDartsBeforeThis: number) {
     <>
       {done}
       {his.marks}marks / {his.darts}本 → {mpr}MPR
-      <br/>
-      {
-        his.roundMarks.map((roundMark) => {
-          let dartsForThisRound = 3;
-          if(isFirstRound) {
-            isFirstRound = false;
-            if(totalDartsBeforeThis%3 !== 0) {
-              dartsForThisRound = 3 - totalDartsBeforeThis%3;
+      <div className={styles.roundHistory}>
+        {
+          his.roundMarks.map((roundMark) => {
+            let dartsForThisRound = 3;
+            if(isFirstRound) {
+              isFirstRound = false;
+              if(totalDartsBeforeThis%3 !== 0) {
+                dartsForThisRound = 3 - totalDartsBeforeThis%3;
+              }
             }
-          }
-          dartsForThisRound = Math.min(dartsForThisRound, dartsForThisTarget);
-          dartsForThisTarget -= dartsForThisRound;
+            dartsForThisRound = Math.min(dartsForThisRound, dartsForThisTarget);
+            dartsForThisTarget -= dartsForThisRound;
 
-          //return `${roundMark}:${dartsForThisRound}:${dartsForThisTarget}`;
-          if(dartsForThisRound === 3) {
-            return String(roundMark);
-          }
-          return String(roundMark) + '(' + dartsForThisRound + '本)';
-        }).join(' / ')
-      }
+            //return `${roundMark}:${dartsForThisRound}:${dartsForThisTarget}`;
+            if(dartsForThisRound === 3) {
+              return String(roundMark);
+            }
+            return String(roundMark) + '(' + dartsForThisRound + '本)';
+          }).join(' / ')
+        }
+      </div>
     </>
   );
 }
